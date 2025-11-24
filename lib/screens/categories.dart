@@ -5,10 +5,7 @@ import '../screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:responsi/model/categories.dart';
 import 'package:http/http.dart' as http;
-import 'package:responsi/screens/detail.dart';
-import 'package:responsi/screens/login.dart';
 import 'package:responsi/screens/meals.dart';
-import 'package:get/get.dart';
 
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({super.key});
@@ -34,6 +31,7 @@ class CategoriesPage extends StatelessWidget {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('user_email');
     await prefs.remove('password');
+    await prefs.remove('logged');
   }
 
   @override
@@ -44,6 +42,7 @@ class CategoriesPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
+                logout();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
