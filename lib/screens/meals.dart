@@ -60,7 +60,7 @@ class MealsPage extends StatelessWidget {
                 final maem = categories[index];
                 return GestureDetector(
                   onTap: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(category : cat.category)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(meal : maem.id)));
                   },
                   child: Card(
                     elevation: 2,

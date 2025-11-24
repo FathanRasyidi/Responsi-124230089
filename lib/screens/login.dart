@@ -15,6 +15,28 @@ class _HomePageState extends State<HomePage> {
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final user = prefs.getString('user_email');
+    final pass = prefs.getString('password');
+
+    if (user != null && user.isNotEmpty && pass != null && pass.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => CategoriesPage()),
+        );
+      });
+    }
+  }
+
   // Membersihkan controller saat widget tidak lagi digunakan
   @override
   void dispose() {
@@ -35,8 +57,8 @@ class _HomePageState extends State<HomePage> {
       );
 
       final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('user_email', _userController.text);
-        await prefs.setString('password', _passwordController.text);
+      await prefs.setString('user_email', _userController.text);
+      await prefs.setString('password', _passwordController.text);
 
       Navigator.pushReplacement(
         context,
@@ -59,7 +81,10 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 40.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -75,7 +100,6 @@ class _HomePageState extends State<HomePage> {
                 RichText(
                   text: const TextSpan(
                     children: [
-
                       TextSpan(
                         text: 'Responsi',
                         style: TextStyle(
@@ -87,9 +111,9 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: 40),
-                
+
                 // Email field
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,9 +155,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Password field
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,9 +196,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _isPasswordVisible 
-                                ? Icons.visibility_off_outlined 
-                                : Icons.visibility_outlined,
+                              _isPasswordVisible
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
                               color: Colors.grey,
                             ),
                             onPressed: () {
@@ -212,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 30),
               ],
             ),
